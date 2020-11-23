@@ -102,9 +102,19 @@ async def main():
                     )
                     logging.debug("main: clusters=%s", clusters)
                     cluster_found = False
-                    device_name = device["user_given_name"] or "%s %s" % (
-                        device["manufacturer"].strip(),
-                        device["model"].strip(),
+                    device_name = (
+                        device["user_given_name"]
+                        and "%s - %s %s"
+                        % (
+                            device["user_given_name"],
+                            device["manufacturer"].strip(),
+                            device["model"].strip(),
+                        )
+                        or "%s %s"
+                        % (
+                            device["manufacturer"].strip(),
+                            device["model"].strip(),
+                        )
                     )
                     for cluster in clusters["result"]:
                         if cluster["type"] == "in" and cluster["name"] == "Basic":
